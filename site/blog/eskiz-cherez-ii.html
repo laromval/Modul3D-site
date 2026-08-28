@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="color-scheme" content="light dark" />
+<title>Эскиз на бумаге, 3D-модель за секунды — блог Modul3D</title>
+<meta name="description" content="Как работает распознавание эскиза мебели через ИИ в Modul3D: что оно умеет, где ошибается и почему результат стоит проверять руками." />
+
+<link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+
+<a class="skip-link" href="#main">Перейти к содержимому</a>
+
+<header class="site-header" data-site-header>
+  <div class="container">
+    <a class="brand" href="../index.html">
+      <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true">
+        <path class="bm-wire" d="M32 12 52 22v20L32 52 12 42V22z"/>
+        <path class="bm-wire" d="M12 22l20 10 20-10M32 32v20"/>
+        <path class="bm-fill" d="M32 32 52 22v20L32 52z"/>
+      </svg>
+      <span class="brand-word">Modul<b>3D</b></span>
+    </a>
+    <nav class="main-nav" aria-label="Основная навигация">
+      <a href="../index.html#features">Возможности</a>
+      <a href="../pricing.html">Цены</a>
+      <a href="../demo.html">Демо</a>
+      <a href="../docs.html">База знаний</a>
+      <a href="../blog.html" class="active">Блог</a>
+    </nav>
+    <div class="header-actions">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Светлая / тёмная тема">
+        <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg>
+      </button>
+      <a class="btn btn-primary btn-sm" href="https://laromval.github.io/Modul3D_mvp/" target="_blank" rel="noopener">Открыть конструктор</a>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-label="Открыть меню" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-nav" data-mobile-nav>
+  <div class="mobile-nav-head container">
+    <a class="brand" href="../index.html">
+      <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true">
+        <path class="bm-wire" d="M32 12 52 22v20L32 52 12 42V22z"/>
+        <path class="bm-wire" d="M12 22l20 10 20-10M32 32v20"/>
+        <path class="bm-fill" d="M32 32 52 22v20L32 52z"/>
+      </svg>
+      <span class="brand-word">Modul<b>3D</b></span>
+    </a>
+    <button class="nav-toggle" type="button" data-nav-close aria-label="Закрыть меню">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+  <ul>
+    <li><a href="../index.html#features">Возможности</a></li>
+    <li><a href="../pricing.html">Цены</a></li>
+    <li><a href="../demo.html">Демо</a></li>
+    <li><a href="../docs.html">База знаний</a></li>
+    <li><a href="../blog.html">Блог</a></li>
+  </ul>
+  <div class="header-actions">
+    <a class="btn btn-primary btn-block" href="https://laromval.github.io/Modul3D_mvp/" target="_blank" rel="noopener">Открыть конструктор</a>
+  </div>
+</div>
+
+<main id="main">
+  <div class="container">
+    <article>
+      <header class="post-header">
+        <span class="blog-date mono">25.08.2026</span>
+        <h1>Эскиз на бумаге, 3D-модель за секунды: как работает распознавание через ИИ</h1>
+        <p class="lede">Разбираем, что на самом деле умеет кнопка «Эскиз → 3D» — и почему результат стоит проверять руками.</p>
+      </header>
+
+      <div class="post-body">
+        <p>В шапке приложения есть кнопка «Эскиз → 3D (ИИ)». Загружаете фото или скан эскиза шкафа — и через несколько секунд панель параметров слева заполняется сама: габариты, число секций, полки, ящики, фасады.</p>
+
+        <h2>Что происходит технически</h2>
+        <p>Изображение отправляется в Claude Vision — модель, умеющую читать чертежи и рукописные наброски. Она возвращает не картинку, а структурированные параметры: те же числа, что вы обычно вводите вручную. Дальше эти параметры просто попадают в ту же параметрическую панель, что и при ручном вводе — конструктор не отличает, откуда пришли цифры.</p>
+
+        <h2>Где эскиз читается хорошо</h2>
+        <p>Лучше всего работает эскиз с явно проставленными размерами и понятным делением на секции — даже нарисованный от руки на листе бумаги. Тип изделия при этом не имеет значения: подойдёт любой прямой корпусный шкаф, тумба или стеллаж.</p>
+
+        <h2>Где стоит перепроверить</h2>
+        <p>Если размеры на эскизе не подписаны, модель вынуждена оценивать пропорции на глаз — и здесь возможны ошибки, особенно в нестандартных секциях. Считайте результат черновиком: полезная отправная точка, а не финальные цифры для раскроя.</p>
+
+        <h2>Что со стоимостью и приватностью</h2>
+        <p>Каждое распознавание списывает токены с баланса аккаунта — отдельно от подписки на экспорт документов, доступно на любом тарифе при наличии токенов. Изображение уходит на сервер только для самого распознавания и не хранится проектом дальше этого запроса.</p>
+
+        <p>Итог: эскиз через ИИ хорош для быстрого старта — набросал на салфетке, получил черновую 3D-модель за секунды. Финальные размеры перед раскроем всё равно стоит свериться руками, как и с любым черновиком.</p>
+      </div>
+
+      <div class="post-cta">
+        <p>Попробуйте загрузить свой эскиз в демо-версии.</p>
+        <a class="btn btn-primary" href="../demo.html">Открыть демо</a>
+      </div>
+    </article>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="../index.html">
+          <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true">
+            <path class="bm-wire" d="M32 12 52 22v20L32 52 12 42V22z"/>
+            <path class="bm-wire" d="M12 22l20 10 20-10M32 32v20"/>
+            <path class="bm-fill" d="M32 32 52 22v20L32 52z"/>
+          </svg>
+          <span class="brand-word">Modul<b>3D</b></span>
+        </a>
+        <p>Параметрический конструктор корпусной мебели: 3D, чертежи, спецификация и файлы для ЧПУ — прямо в браузере.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Продукт</h4>
+        <ul>
+          <li><a href="../index.html#features">Возможности</a></li>
+          <li><a href="../pricing.html">Цены</a></li>
+          <li><a href="../demo.html">Демо</a></li>
+          <li><a href="https://laromval.github.io/Modul3D_mvp/" target="_blank" rel="noopener">Открыть конструктор</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Ресурсы</h4>
+        <ul>
+          <li><a href="../docs.html">База знаний</a></li>
+          <li><a href="../blog.html">Блог</a></li>
+          <li><a href="https://github.com/laromval/Modul3D_mvp" target="_blank" rel="noopener">Исходный код</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Modul3D</p>
+      <p>Работает офлайн, прямо в браузере</p>
+    </div>
+  </div>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>
