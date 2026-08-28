@@ -79,8 +79,8 @@
   <section class="hero">
     <div class="container">
       <div class="hero-copy">
-        <h1>Спроектируйте шкаф. Получите чертежи и файлы для ЧПУ.</h1>
-        <p class="lede">Modul3D пересчитывает 3D-модель, деталировку и спецификацию мгновенно при любом изменении размеров или секций.</p>
+        <h1>Искусственный интеллект спроектирует вашу мебель</h1>
+        <p class="lede">Сфотографируйте эскиз с размерами — Modul3D построит 3D-модель, чертежи и спецификацию для производства.</p>
         <div class="hero-actions">
           <a class="btn btn-primary btn-lg" href="https://laromval.github.io/Modul3D_mvp/" target="_blank" rel="noopener">Открыть конструктор</a>
           <a class="btn btn-ghost btn-lg" href="pricing.html">Смотреть цены</a>
@@ -94,19 +94,21 @@
               <stop offset="100%" stop-color="var(--accent)" stop-opacity="0" />
             </radialGradient>
           </defs>
-          <circle cx="160" cy="150" r="150" fill="url(#heroGlow)" />
+          <circle cx="160" cy="153" r="150" fill="url(#heroGlow)" />
+          <!-- Чертёж кухонного модуля: столешница, два фасада, ручки, врезанный цоколь -->
           <g class="wire-float" fill="none" stroke="var(--accent)" stroke-width="1.6" stroke-linejoin="round">
-            <path d="M160 40 250 88v112L160 248 70 200V88z" opacity=".9"/>
-            <path d="M70 88l90 48 90-48M160 136v112" opacity=".55"/>
-            <path d="M160 136 250 88v112L160 248z" fill="var(--accent)" opacity=".08" stroke="none"/>
-            <path d="M92 108v88M138 132v88" stroke-dasharray="3 4" opacity=".4"/>
-            <rect x="180" y="150" width="46" height="34" rx="2" opacity=".7"/>
+            <rect x="64" y="66" width="206" height="174" fill="var(--accent)" opacity=".07" stroke="none"/>
+            <rect x="50" y="66" width="220" height="16"/>
+            <rect x="64" y="82" width="192" height="132"/>
+            <path d="M160 82v132" opacity=".8"/>
+            <path d="M150 98v34M170 98v34" stroke-width="2.2" opacity=".85"/>
+            <rect x="76" y="214" width="168" height="26" stroke-dasharray="3 4" opacity=".55"/>
           </g>
           <g class="mono" fill="var(--muted)" font-size="10" letter-spacing=".02em">
-            <text x="160" y="286" text-anchor="middle">600 × 2000 × 560</text>
+            <text x="160" y="280" text-anchor="middle">600 × 820 × 560</text>
           </g>
-          <path d="M70 262h180" stroke="var(--border-strong)" stroke-width="1"/>
-          <path d="M70 258v8M250 258v8" stroke="var(--border-strong)" stroke-width="1"/>
+          <path d="M64 256h192" stroke="var(--border-strong)" stroke-width="1"/>
+          <path d="M64 252v8M256 252v8" stroke="var(--border-strong)" stroke-width="1"/>
         </svg>
       </div>
     </div>
@@ -158,7 +160,25 @@
           <div class="cell-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 2.5 21 7v10l-9 4.5L3 17V7z"/><path d="M3 7l9 4.5L21 7M12 11.5V21.5"/></svg>
           </div>
-          <div class="cell-visual"></div>
+          <div class="cell-visual cell-visual-3d">
+            <svg viewBox="0 0 260 210" width="100%" height="100%" aria-hidden="true">
+              <defs>
+                <linearGradient id="matTop" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#eef0f2"/><stop offset="1" stop-color="#c9cdd3"/>
+                </linearGradient>
+                <linearGradient id="matLeft" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#8a5a34"/><stop offset="1" stop-color="#6b4425"/>
+                </linearGradient>
+                <linearGradient id="matRight" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#c68a52"/><stop offset="1" stop-color="#a5703e"/>
+                </linearGradient>
+              </defs>
+              <path d="M130 22 212 64 130 106 48 64Z" fill="url(#matTop)" stroke="rgba(0,0,0,.18)"/>
+              <path d="M48 64 130 106 130 188 48 146Z" fill="url(#matLeft)" stroke="rgba(0,0,0,.22)"/>
+              <path d="M130 106 212 64 212 146 130 188Z" fill="url(#matRight)" stroke="rgba(0,0,0,.22)"/>
+              <path d="M124 122v40" stroke="rgba(0,0,0,.5)" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </div>
           <div>
             <h3>3D-визуализация в реальном времени</h3>
             <p>Меняете размер, секцию или декор — модель на экране обновляется мгновенно, без перезапуска расчёта.</p>
@@ -166,13 +186,13 @@
         </article>
 
         <article class="bento-cell bento-wide">
-          <span class="cell-tag">Бесплатно</span>
+          <span class="cell-tag">Токены</span>
           <div class="cell-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2.5h8l4 4V21a.5.5 0 0 1-.5.5h-11A.5.5 0 0 1 6 21z"/><path d="M14 2.5V7h4"/><path d="M9 12h6M9 15.5h6M9 8.5h2"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9M7 13l5-5 5 5"/><path d="M4 5h16"/></svg>
           </div>
           <div>
-            <h3>Чертежи по ЕСКД</h3>
-            <p>Общий вид и вид модуля в трёх проекциях с размерными цепочками — готово к печати.</p>
+            <h3>Эскиз в 3D через ИИ</h3>
+            <p>Сфотографируйте эскиз или дизайн-проект с размерами — ИИ распознает габариты и секции и построит модель за вас.</p>
           </div>
         </article>
 
@@ -180,13 +200,45 @@
           <div class="cell-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 12h4M12 12h8M4 17h9M17 17h3"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="15" cy="17" r="2"/></svg>
           </div>
-          <div>
-            <h3>Спецификация и стоимость</h3>
-            <p>Материалы, кромка, фурнитура и крепёж — по 4 разделам, посчитаны из тех же деталей.</p>
+          <h3>Спецификация и стоимость</h3>
+          <div class="spec-mock">
+            <div class="spec-mock-row"><span>ЛДСП корпус, 16 мм</span><span>2.4 м²</span></div>
+            <div class="spec-mock-row"><span>Кромка ПВХ, 0.4 мм</span><span>14 м</span></div>
+            <div class="spec-mock-row"><span>Фасад МДФ крашеный</span><span>2 шт</span></div>
+            <div class="spec-mock-row"><span>Петли и направляющие Blum</span><span>4 компл.</span></div>
+            <div class="spec-mock-total"><span>Итого по проекту</span><span>≈ 41 800 ₽</span></div>
+            <span class="spec-mock-note">Пример расчёта — цифры вашего проекта считаются заново под ваши размеры</span>
           </div>
         </article>
 
-        <article class="bento-cell bento-wide bento-dark">
+        <article class="bento-cell bento-wide">
+          <div class="cell-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2.5h8l4 4V21a.5.5 0 0 1-.5.5h-11A.5.5 0 0 1 6 21z"/><path d="M14 2.5V7h4"/><path d="M9 12h6M9 15.5h6M9 8.5h2"/></svg>
+          </div>
+          <div class="cell-visual-drawing" aria-hidden="true">
+            <svg viewBox="0 0 90 84" width="92" height="84">
+              <rect class="cvd-wire" x="8" y="6" width="74" height="6"/>
+              <rect class="cvd-wire" x="14" y="12" width="62" height="42"/>
+              <line class="cvd-wire" x1="45" y1="12" x2="45" y2="54"/>
+              <rect class="cvd-wire" x="20" y="54" width="50" height="8" stroke-dasharray="2 3" opacity=".6"/>
+              <text class="cvd-t" x="45" y="72" text-anchor="middle">ФАСАД</text>
+              <text class="cvd-t" x="45" y="82" text-anchor="middle" fill="var(--accent)">600</text>
+            </svg>
+            <svg viewBox="0 0 64 84" width="66" height="84">
+              <rect class="cvd-wire" x="6" y="6" width="48" height="6"/>
+              <rect class="cvd-wire" x="10" y="12" width="40" height="42"/>
+              <rect class="cvd-wire" x="14" y="54" width="32" height="8" stroke-dasharray="2 3" opacity=".6"/>
+              <text class="cvd-t" x="30" y="72" text-anchor="middle">СБОКУ</text>
+              <text class="cvd-t" x="30" y="82" text-anchor="middle" fill="var(--accent)">560</text>
+            </svg>
+          </div>
+          <div>
+            <h3>Чертежи по ЕСКД</h3>
+            <p>Общий вид и вид модуля в трёх проекциях с размерными цепочками — готово к печати.</p>
+          </div>
+        </article>
+
+        <article class="bento-cell bento-dark">
           <span class="cell-tag">Pro</span>
           <div class="cell-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 11l5 5 5-5"/><path d="M4 19h16"/></svg>
@@ -194,17 +246,6 @@
           <div>
             <h3>Экспорт в Excel, DXF и CSV</h3>
             <p>Деталировка и спецификация — в .xlsx. Координаты присадки — в DXF и CSV для ЧПУ.</p>
-          </div>
-        </article>
-
-        <article class="bento-cell">
-          <span class="cell-tag">Токены</span>
-          <div class="cell-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9M7 13l5-5 5 5"/><path d="M4 5h16"/></svg>
-          </div>
-          <div>
-            <h3>Эскиз в 3D через ИИ</h3>
-            <p>Сфотографируйте эскиз шкафа — Claude Vision распознает габариты и секции как черновик.</p>
           </div>
         </article>
 
@@ -240,18 +281,18 @@
       <ol class="flow reveal">
         <li class="flow-step">
           <div class="flow-num" aria-hidden="true"></div>
-          <h3>Задайте размеры и секции</h3>
-          <p>Ширина, высота, глубина, полки, ящики, фасады — в обычной параметрической панели слева.</p>
+          <h3>Сфотографируйте эскиз или задайте размеры сами</h3>
+          <p>Загрузите фото дизайн-проекта с размерами — ИИ распознает габариты и секции. Или введите параметры вручную.</p>
         </li>
         <li class="flow-step">
           <div class="flow-num" aria-hidden="true"></div>
-          <h3>Проверьте в 3D и на чертеже</h3>
-          <p>Модель, проекции и присадка по системе 32 пересчитываются сразу при любой правке.</p>
+          <h3>ИИ построит 3D-модель</h3>
+          <p>Модель, проекции и присадка по системе 32 готовы сразу — останется проверить и поправить при необходимости.</p>
         </li>
         <li class="flow-step">
           <div class="flow-num" aria-hidden="true"></div>
-          <h3>Скачайте документы</h3>
-          <p>Деталировка и спецификация — в Excel, координаты присадки — в DXF и CSV для ЧПУ.</p>
+          <h3>Получите документы для производства</h3>
+          <p>Чертежи, деталировка и спецификация — в Excel, координаты присадки — в DXF и CSV для ЧПУ.</p>
         </li>
       </ol>
     </div>
@@ -268,12 +309,18 @@
           </div>
           <a class="btn btn-primary" href="demo.html">Подробнее о демо</a>
         </div>
-        <div class="live-frame-wrap">
+        <div class="live-frame-wrap" data-live-embed="https://laromval.github.io/Modul3D_mvp/">
           <div class="live-frame-bar">
             <span></span><span></span><span></span>
             <span class="url mono">laromval.github.io/Modul3D_mvp</span>
           </div>
-          <iframe src="https://laromval.github.io/Modul3D_mvp/" title="Modul3D — живая демонстрация конструктора" loading="lazy" referrerpolicy="no-referrer"></iframe>
+          <div class="live-frame-placeholder">
+            <button class="live-launch" type="button" data-live-launch>
+              <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+              Запустить живую демонстрацию
+            </button>
+            <span class="live-frame-note">Откроется настоящее приложение — со своим сохранённым состоянием</span>
+          </div>
         </div>
       </div>
     </div>

@@ -149,7 +149,27 @@ body {
   background: var(--bg);
   -webkit-font-smoothing: antialiased;
   transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+  position: relative;
 }
+
+/* Фоновые цветные пятна — без них glass-панелям (backdrop-filter: blur)
+   нечего размывать, они выглядят просто полупрозрачно-серыми. Пятна
+   зафиксированы (fixed), не мешают выделению текста и не участвуют в layout. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(760px circle at 12% 8%, var(--accent-glow), transparent 60%),
+    radial-gradient(680px circle at 88% 28%, var(--accent-glow), transparent 55%),
+    radial-gradient(820px circle at 50% 92%, var(--accent-glow), transparent 60%);
+  opacity: .16;
+  filter: blur(10px);
+}
+[data-theme='dark'] body::before { opacity: .22; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme='light']) body::before { opacity: .22; } }
 
 img, svg { display: block; max-width: 100%; }
 a { color: inherit; }
@@ -208,15 +228,19 @@ h3 { font-size: clamp(1.15rem, 1.05rem + .5vw, 1.4rem); }
   transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease),
               color var(--dur) var(--ease), box-shadow var(--dur) var(--ease), transform .12s var(--ease);
 }
-.btn:hover { border-color: var(--accent); color: var(--accent); }
-.btn:active { transform: translateY(1px) scale(.99); }
+.btn:hover {
+  border-color: var(--accent); color: var(--accent);
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 10px 22px -8px var(--accent-glow);
+}
+.btn:active { transform: translateY(0) scale(.98); }
 
 .btn-primary {
   background: var(--accent); border-color: transparent; color: var(--accent-ink);
 }
 .btn-primary:hover {
   background: var(--accent-2); color: var(--accent-ink); border-color: transparent;
-  box-shadow: 0 8px 24px -6px var(--accent-glow);
+  box-shadow: 0 12px 30px -6px var(--accent-glow);
 }
 
 .btn-ghost {
@@ -258,10 +282,18 @@ h3 { font-size: clamp(1.15rem, 1.05rem + .5vw, 1.4rem); }
 
 .main-nav { display: flex; align-items: center; gap: var(--sp-6); flex: 1; justify-content: center; }
 .main-nav a {
+  position: relative;
   font-size: .93rem; font-weight: 500; color: var(--text-2); text-decoration: none;
   transition: color var(--dur) var(--ease);
 }
+.main-nav a::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: -6px; height: 2px;
+  background: var(--accent); border-radius: 2px;
+  transform: scaleX(0); transform-origin: left;
+  transition: transform var(--dur) var(--ease);
+}
 .main-nav a:hover, .main-nav a.active { color: var(--text); }
+.main-nav a:hover::after, .main-nav a.active::after { transform: scaleX(1); }
 
 .header-actions { display: flex; align-items: center; gap: var(--sp-3); flex: none; }
 
@@ -271,7 +303,7 @@ h3 { font-size: clamp(1.15rem, 1.05rem + .5vw, 1.4rem); }
   border: 1px solid var(--border); background: var(--surface-solid); color: var(--text-2);
   cursor: pointer; transition: all var(--dur) var(--ease);
 }
-.theme-toggle:hover { color: var(--text); border-color: var(--border-strong); }
+.theme-toggle:hover { color: var(--accent); border-color: var(--accent); transform: scale(1.08) rotate(-8deg); box-shadow: 0 6px 16px -6px var(--accent-glow); }
 .theme-toggle svg { width: 18px; height: 18px; }
 .theme-toggle .ic-moon { display: none; }
 [data-theme='dark'] .theme-toggle .ic-sun { display: none; }
@@ -337,12 +369,19 @@ h3 { font-size: clamp(1.15rem, 1.05rem + .5vw, 1.4rem); }
 .segment {
   padding: var(--sp-6) var(--sp-5);
   border-left: 1px solid var(--border);
+  transition: background var(--dur) var(--ease);
 }
 .segment:first-child { border-left: none; }
+.segment:hover { background: var(--accent-soft); }
 .segment-icon {
   width: 40px; height: 40px; border-radius: var(--r-md);
   display: flex; align-items: center; justify-content: center;
   background: var(--accent-soft); color: var(--accent); margin-bottom: var(--sp-4);
+  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+.segment:hover .segment-icon {
+  transform: scale(1.12) rotate(-4deg);
+  box-shadow: 0 0 0 6px var(--accent-soft), 0 8px 20px -8px var(--accent-glow);
 }
 .segment-icon svg { width: 22px; height: 22px; }
 .segment h3 { margin-bottom: var(--sp-2); }
@@ -361,13 +400,19 @@ h3 { font-size: clamp(1.15rem, 1.05rem + .5vw, 1.4rem); }
   position: relative;
   border-radius: var(--r-xl);
   border: 1px solid var(--border);
-  background: var(--surface-solid);
+  background: var(--surface);
+  -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12);
   padding: var(--sp-5);
   display: flex; flex-direction: column; justify-content: flex-end;
   overflow: hidden;
   transition: border-color var(--dur) var(--ease), transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
 }
-.bento-cell:hover { border-color: var(--border-strong); box-shadow: var(--shadow-2); transform: translateY(-2px); }
+.bento-cell:hover {
+  border-color: var(--accent);
+  transform: translateY(-4px) scale(1.015);
+  box-shadow: 0 16px 36px -12px var(--accent-glow), var(--shadow-2), inset 0 1px 0 rgba(255, 255, 255, .16);
+}
 .bento-cell h3 { font-size: 1.05rem; margin-bottom: 6px; }
 .bento-cell p { color: var(--text-2); font-size: .9rem; }
 .bento-cell .cell-icon {
@@ -393,6 +438,38 @@ h3 { font-size: clamp(1.15rem, 1.05rem + .5vw, 1.4rem); }
 .bento-dark h3, .bento-dark p { color: #eef3f8; }
 .bento-dark p { color: #8b9bad; }
 .bento-dark .cell-icon { background: rgba(0,194,255,.14); color: #00c2ff; }
+
+/* мини-иллюстрация «3D с текстурами» в большой плитке bento-lg */
+.cell-visual-3d {
+  display: flex; align-items: center; justify-content: center;
+  border-radius: var(--r-lg);
+  background: var(--surface-2);
+  min-height: 140px;
+}
+.cell-visual-3d svg { width: 78%; height: auto; filter: drop-shadow(0 10px 18px rgba(0,0,0,.16)); }
+[data-theme='dark'] .cell-visual-3d svg { filter: drop-shadow(0 10px 20px rgba(0,0,0,.5)); }
+
+/* мини-чертёж (2 проекции) в плитке bento-wide «Чертежи по ЕСКД» */
+.cell-visual-drawing { display: flex; gap: var(--sp-4); align-items: flex-end; margin: var(--sp-3) 0; }
+.cell-visual-drawing svg { flex: none; }
+.cvd-wire { fill: none; stroke: var(--text-2); stroke-width: 1; }
+.cvd-dim { stroke: var(--accent); stroke-width: .7; }
+.cvd-t { font: 8px var(--ff-mono); fill: var(--muted); }
+
+/* мини-макет спецификации в карточке «Спецификация и стоимость» */
+.spec-mock { margin: var(--sp-2) 0 var(--sp-4); font-size: .78rem; }
+.spec-mock-row {
+  display: flex; align-items: baseline; justify-content: space-between; gap: var(--sp-3);
+  padding: 5px 0; border-bottom: 1px dashed var(--border); color: var(--text-2);
+}
+.spec-mock-row span:last-child { font-family: var(--ff-mono); color: var(--text); white-space: nowrap; }
+.spec-mock-total {
+  display: flex; align-items: baseline; justify-content: space-between; gap: var(--sp-3);
+  margin-top: 6px; padding-top: 8px;
+  font-weight: 700; color: var(--text);
+}
+.spec-mock-total span:last-child { font-family: var(--ff-mono); color: var(--accent); }
+.spec-mock-note { display: block; margin-top: 4px; font-size: .72rem; color: var(--muted); font-style: italic; }
 
 /* ---------- 9. КАК ЭТО РАБОТАЕТ (диаграмма-цепочка) -------------------------- */
 
@@ -448,6 +525,46 @@ h3 { font-size: clamp(1.15rem, 1.05rem + .5vw, 1.4rem); }
   margin-left: var(--sp-3); font-family: var(--ff-mono); font-size: .78rem; color: #8b9bad;
 }
 
+/* Заглушка вместо iframe, пока пользователь не нажал «Запустить» — реальное
+   приложение (со своим автосохранением и диалогом «Восстановить проект?»)
+   не получает фокус без явного действия человека, поэтому страница не
+   утаскивает скролл вниз сама по себе при обычном заходе на сайт. */
+.live-frame-placeholder {
+  position: relative;
+  height: clamp(360px, 52vw, 620px);
+  display: flex; align-items: center; justify-content: center;
+  background:
+    radial-gradient(circle at 50% 30%, rgba(0,194,255,.14), transparent 60%),
+    repeating-linear-gradient(rgba(255,255,255,.035) 0 1px, transparent 1px 44px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.035) 0 1px, transparent 1px 44px);
+}
+.live-launch {
+  display: inline-flex; align-items: center; gap: 12px;
+  padding: 14px 24px; border-radius: 999px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.16);
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  color: #eef3f8; font-weight: 600; font-size: .98rem;
+  cursor: pointer;
+  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), background var(--dur) var(--ease);
+}
+.live-launch:hover {
+  transform: translateY(-2px) scale(1.04);
+  background: rgba(0,194,255,.14);
+  border-color: #00c2ff;
+  box-shadow: 0 14px 34px -10px rgba(0,194,255,.5);
+}
+.live-launch .play {
+  display: flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px; border-radius: 50%; flex: none;
+  background: #00c2ff; color: #06131a;
+}
+.live-launch .play svg { width: 15px; height: 15px; margin-left: 2px; }
+.live-frame-note {
+  position: absolute; left: 0; right: 0; bottom: 18px; text-align: center;
+  font-size: .78rem; color: #8b9bad;
+}
+
 /* ---------- 11. ЭДИТОРИАЛЬНОЕ УТВЕРЖДЕНИЕ ------------------------------------ */
 
 .statement { text-align: center; padding: var(--sp-9) 0; }
@@ -466,13 +583,19 @@ h3 { font-size: clamp(1.15rem, 1.05rem + .5vw, 1.4rem); }
 
 .plan-card {
   border: 1px solid var(--border); border-radius: var(--r-xl);
-  background: var(--surface-solid); padding: var(--sp-6);
+  background: var(--surface);
+  -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12);
+  padding: var(--sp-6);
   display: flex; flex-direction: column;
+  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease);
 }
+.plan-card:hover { transform: translateY(-3px); box-shadow: 0 16px 36px -14px var(--accent-glow), var(--shadow-2); }
 .plan-card.plan-featured {
   border-color: var(--accent);
   box-shadow: 0 0 0 1px var(--accent), var(--shadow-2);
 }
+.plan-card.plan-featured:hover { box-shadow: 0 0 0 1px var(--accent), 0 16px 36px -12px var(--accent-glow), var(--shadow-2); transform: translateY(-3px); }
 .plan-name { font-weight: 700; font-size: 1.1rem; margin-bottom: var(--sp-2); }
 .plan-price { display: flex; align-items: baseline; gap: 6px; margin-bottom: var(--sp-2); }
 .plan-price .amount { font-family: var(--ff-mono); font-size: 2rem; font-weight: 700; }
@@ -490,11 +613,16 @@ h3 { font-size: clamp(1.15rem, 1.05rem + .5vw, 1.4rem); }
 .accordion-item { border-bottom: 1px solid var(--border); }
 .accordion-trigger {
   width: 100%; display: flex; align-items: center; justify-content: space-between; gap: var(--sp-4);
-  padding: var(--sp-5) 0; background: none; border: none; text-align: left; cursor: pointer;
+  padding: var(--sp-5) var(--sp-3); margin: 0 calc(var(--sp-3) * -1);
+  background: none; border: none; border-radius: var(--r-md); text-align: left; cursor: pointer;
   font-family: inherit; font-size: 1rem; font-weight: 600; color: var(--text);
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
 }
-.accordion-trigger svg { width: 20px; height: 20px; flex: none; color: var(--muted); transition: transform var(--dur) var(--ease); }
+.accordion-trigger:hover { background: var(--accent-soft); color: var(--accent); }
+.accordion-trigger svg { width: 20px; height: 20px; flex: none; color: var(--muted); transition: transform var(--dur) var(--ease), color var(--dur) var(--ease); }
+.accordion-trigger:hover svg { color: var(--accent); transform: scale(1.15); }
 .accordion-item[data-open='true'] .accordion-trigger svg { transform: rotate(45deg); color: var(--accent); }
+.accordion-item[data-open='true'] .accordion-trigger:hover svg { transform: rotate(45deg) scale(1.15); }
 .accordion-panel {
   display: grid; grid-template-rows: 0fr; transition: grid-template-rows var(--dur-slow) var(--ease);
 }

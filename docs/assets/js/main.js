@@ -114,6 +114,30 @@
     els.forEach(function (el) { io.observe(el); });
   }
 
+  /* ---------- живой iframe запускается только по клику --------------------------
+     Настоящее приложение перехватывает фокус (у него свой диалог «Восстановить
+     проект?» из автосохранения) и без явного клика пользователя утаскивает
+     скролл страницы вниз, к себе — это сбивает с толку при первом заходе на
+     сайт. Поэтому iframe не рендерится в разметке заранее — только после
+     клика по кнопке «Запустить», атрибут src подставляется в этот момент. */
+  function initLiveEmbeds() {
+    document.querySelectorAll('[data-live-embed]').forEach(function (wrap) {
+      var launchBtn = wrap.querySelector('[data-live-launch]');
+      if (!launchBtn) return;
+      launchBtn.addEventListener('click', function () {
+        var src = wrap.getAttribute('data-live-embed');
+        var placeholder = wrap.querySelector('.live-frame-placeholder');
+        var iframe = document.createElement('iframe');
+        iframe.src = src;
+        iframe.title = 'Modul3D — живая демонстрация конструктора';
+        iframe.referrerPolicy = 'no-referrer';
+        iframe.style.cssText = 'width:100%;border:0;display:block;height:' +
+          (placeholder ? placeholder.offsetHeight : 600) + 'px';
+        if (placeholder) placeholder.replaceWith(iframe);
+      });
+    });
+  }
+
   /* ---------- активный пункт в докс-навигации по видимому разделу -------------- */
   function initDocsNavSpy() {
     var nav = document.querySelector('[data-docs-nav]');
@@ -142,6 +166,7 @@
     initHeaderScrollState();
     initAccordions();
     initReveal();
+    initLiveEmbeds();
     initDocsNavSpy();
   });
 })();
