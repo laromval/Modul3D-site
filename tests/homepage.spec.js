@@ -1,12 +1,11 @@
 const path = require('node:path');
 const { test, expect } = require('@playwright/test');
 
-// Пример smoke-теста для собранного сайта.
-// Сейчас указывает на локальный placeholder в site/index.html — когда появится
-// реальный сайт (или dev-сервер), замени testUrl на его адрес (http://localhost:...)
-// или путь до нужного файла. Внешние URL из этой песочницы недоступны — это
-// нормально, тестировать нужно то, что реально собрали, а не произвольные сайты.
-const testUrl = 'file://' + path.resolve(__dirname, '../site/index.html');
+// Smoke-тест для собранного сайта. Папка называется docs/, а не site/, —
+// так GitHub Pages может публиковать её напрямую (Settings → Pages → Deploy
+// from a branch → main → /docs) без отдельного workflow и без токена с
+// правом `workflow`.
+const testUrl = 'file://' + path.resolve(__dirname, '../docs/index.html');
 
 test('главная страница открывается без ошибок консоли', async ({ page }) => {
   const consoleErrors = [];
