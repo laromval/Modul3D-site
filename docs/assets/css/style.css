@@ -341,7 +341,7 @@ h3 { font-size: clamp(1.15rem, 1.05rem + .5vw, 1.4rem); }
   display: grid; grid-template-columns: 1.05fr .95fr; gap: var(--sp-8); align-items: center;
 }
 
-.hero-copy h1 { margin-bottom: var(--sp-4); }
+.hero-copy h1 { margin-bottom: var(--sp-4); font-size: clamp(1.9rem, 1.15rem + 2.6vw, 2.85rem); line-height: 1.15; }
 .hero-copy .lede { margin-bottom: var(--sp-6); }
 .hero-actions { display: flex; align-items: center; gap: var(--sp-4); flex-wrap: wrap; }
 
