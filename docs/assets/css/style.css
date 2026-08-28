@@ -578,8 +578,8 @@ h3 { font-size: clamp(1.15rem, 1.05rem + .5vw, 1.4rem); }
 
 /* ---------- 12. ЦЕНЫ (превью на лендинге + полная страница) ----------------- */
 
-.pricing-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--sp-5); }
-.pricing-grid.pricing-grid-wide { grid-template-columns: repeat(2, 1fr); max-width: 880px; margin: 0 auto; }
+.pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-5); }
+.pricing-grid.pricing-grid-wide { grid-template-columns: repeat(3, 1fr); max-width: 1080px; margin: 0 auto; }
 
 .plan-card {
   border: 1px solid var(--border); border-radius: var(--r-xl);
@@ -779,6 +779,7 @@ html.js-reveal .reveal.is-visible { opacity: 1; transform: none; }
   .docs-layout { grid-template-columns: 1fr; }
   .docs-nav { position: static; margin-bottom: var(--sp-6); }
   .docs-nav ul { flex-direction: row; flex-wrap: wrap; gap: var(--sp-2); }
+  .pricing-grid, .pricing-grid-wide, .pricing-grid.pricing-grid-wide { grid-template-columns: 1fr; max-width: 480px; }
 }
 
 @media (max-width: 860px) {
@@ -790,7 +791,6 @@ html.js-reveal .reveal.is-visible { opacity: 1; transform: none; }
   .flow { grid-template-columns: 1fr; gap: var(--sp-6); }
   .flow-step { padding: 0 !important; }
   .flow-num::after { display: none; }
-  .pricing-grid, .pricing-grid-wide { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .demo-tips { grid-template-columns: 1fr; }
   .compare-row { flex-direction: column; gap: 4px; }
