@@ -4,8 +4,8 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<title>Блог — Modul3D</title>
-<meta name="description" content="Заметки о том, как проектировать корпусную мебель в Modul3D: практические разборы конструктора и распознавания эскиза через ИИ." />
+<title>Отзывы — Modul3D</title>
+<meta name="description" content="Отзывы пользователей Modul3D — параметрического конструктора корпусной мебели. Оставить отзыв можно прямо в приложении, в панели «Аккаунт»." />
 
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -31,9 +31,9 @@
       <a href="index.html#features">Возможности</a>
       <a href="pricing.html">Цены</a>
       <a href="demo.html">Демо</a>
-      <a href="reviews.html">Отзывы</a>
+      <a href="reviews.html" class="active">Отзывы</a>
       <a href="docs.html">База знаний</a>
-      <a href="blog.html" class="active">Блог</a>
+      <a href="blog.html">Блог</a>
     </nav>
     <div class="header-actions">
       <button class="theme-toggle" type="button" data-theme-toggle aria-label="Светлая / тёмная тема">
@@ -79,28 +79,67 @@
 
   <header class="page-header">
     <div class="container">
-      <h1>Блог</h1>
-      <p class="lede">Разборы конструктора, практические приёмы и честно о том, что пока работает не идеально.</p>
+      <span class="eyebrow">Отзывы</span>
+      <h1>Что говорят те, кто уже строит в Modul3D</h1>
+      <p class="lede">Каждый отзыв оставлен пользователем приложения и проверен вручную перед публикацией — здесь только реальные истории.</p>
     </div>
   </header>
 
+  <!-- ============ КАК ОСТАВИТЬ ОТЗЫВ ============ -->
   <section class="section-tight">
     <div class="container">
-      <div class="blog-list">
-        <a class="blog-card reveal" href="blog/eskiz-cherez-ii.html">
-          <span class="blog-date">25.08.2026</span>
-          <div>
-            <h3>Эскиз на бумаге, 3D-модель за секунды: как работает распознавание через ИИ</h3>
-            <p>Разбираем, что на самом деле умеет кнопка «Эскиз → 3D» — и почему результат стоит проверять руками.</p>
-          </div>
-        </a>
-        <a class="blog-card reveal" href="blog/pervyy-shkaf.html">
-          <span class="blog-date">18.08.2026</span>
-          <div>
-            <h3>Как построить первый шкаф в Modul3D за 10 минут</h3>
-            <p>Пошагово: от пустой сцены до готовой деталировки — на бесплатном тарифе, без единой строчки CAD-опыта.</p>
-          </div>
-        </a>
+      <div class="section-header reveal">
+        <h2>Как оставить свой отзыв</h2>
+        <p class="lede">Форма отзыва живёт прямо в приложении — на сайте её специально нет, чтобы не заводить второй аккаунт.</p>
+      </div>
+      <ol class="flow reveal">
+        <li class="flow-step">
+          <div class="flow-num" aria-hidden="true"></div>
+          <h3>Войдите в аккаунт в приложении</h3>
+          <p>Кнопка «Аккаунт» в шапке конструктора — вход или регистрация с никнеймом и, по желанию, аватаркой.</p>
+        </li>
+        <li class="flow-step">
+          <div class="flow-num" aria-hidden="true"></div>
+          <h3>Напишите отзыв в панели аккаунта</h3>
+          <p>Там же, в карточке аккаунта, есть поле «Оставить отзыв» — пара предложений о том, что понравилось или что доработать.</p>
+        </li>
+        <li class="flow-step">
+          <div class="flow-num" aria-hidden="true"></div>
+          <h3>Отзыв появится здесь после проверки</h3>
+          <p>Мы читаем каждый отзыв вручную — если что-то важное, обязательно свяжемся по email, указанному при регистрации.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ СПИСОК ОТЗЫВОВ ============ -->
+  <section class="section-tight">
+    <div class="container">
+      <div class="section-header reveal">
+        <h2>Отзывы пользователей</h2>
+      </div>
+
+      <div class="reviews-grid" data-reviews aria-live="polite"></div>
+
+      <div class="reviews-state" id="reviewsLoading">
+        <p>Загружаем отзывы…</p>
+      </div>
+      <div class="reviews-state" id="reviewsEmpty" hidden>
+        <p>Отзывов пока нет — станьте первым, кто поделится впечатлением о Modul3D.</p>
+        <a class="btn btn-primary" href="https://laromval.github.io/Modul3D_mvp/" target="_blank" rel="noopener">Открыть конструктор</a>
+      </div>
+      <div class="reviews-state" id="reviewsError" hidden>
+        <p>Не удалось загрузить отзывы. Попробуйте зайти чуть позже.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section class="section-tight">
+    <div class="container">
+      <div class="cta-band reveal">
+        <h2>Построили свой модуль? Расскажите, как прошло</h2>
+        <a class="btn btn-primary btn-lg" href="https://laromval.github.io/Modul3D_mvp/" target="_blank" rel="noopener">Открыть конструктор</a>
       </div>
     </div>
   </section>

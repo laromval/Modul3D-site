@@ -5,6 +5,11 @@
 
   var THEME_KEY = 'modul3d-site-theme';
 
+  /* Сервер приложения (аккаунты/отзывы) пока развёрнут только локально
+     (см. Modul3D_mvp/server/README.md) — после деплоя в облако заменить
+     на боевой https-адрес. */
+  var REVIEWS_API_BASE = 'http://localhost:4000';
+
   /* ---------- тема: ручной выбор побеждает системную, хранится в localStorage --- */
   function applyStoredTheme() {
     var stored = null;
@@ -160,6 +165,78 @@
     sections.forEach(function (s) { io.observe(s); });
   }
 
+  /* ---------- отзывы (docs/reviews.html) ---------------------------------------
+     GET /reviews/public на сервере Modul3D (см. Modul3D_mvp/server/src/routes/
+     reviews.js) — только одобренные модератором отзывы, без email автора.
+     Три состояния помимо самой сетки карточек: загрузка / пусто / ошибка сети —
+     сервер сейчас локальный, поэтому у обычного посетителя сайта ошибка сети
+     ожидаема, страница не должна выглядеть сломанной. */
+  function escapeHtml(str) {
+    var div = document.createElement('div');
+    div.textContent = str == null ? '' : String(str);
+    return div.innerHTML;
+  }
+
+  function formatReviewDate(value) {
+    try {
+      return new Date(value).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+    } catch (e) {
+      return '';
+    }
+  }
+
+  function renderReviewCard(review) {
+    var nickname = review.nickname || 'Пользователь Modul3D';
+    var initial = nickname.trim().charAt(0).toUpperCase() || 'M';
+    var avatarUrl = review.avatarUrl;
+    var avatarStyle = avatarUrl ? ' style="background-image:url(\'' + REVIEWS_API_BASE + avatarUrl + '\')"' : '';
+
+    var card = document.createElement('article');
+    card.className = 'review-card';
+    card.innerHTML =
+      '<div class="review-head">' +
+        '<div class="review-avatar"' + avatarStyle + '>' + (avatarUrl ? '' : escapeHtml(initial)) + '</div>' +
+        '<div>' +
+          '<div class="review-name">' + escapeHtml(nickname) + '</div>' +
+          '<div class="review-date">' + escapeHtml(formatReviewDate(review.createdAt)) + '</div>' +
+        '</div>' +
+      '</div>' +
+      '<p class="review-body"></p>';
+    card.querySelector('.review-body').textContent = review.body || '';
+    return card;
+  }
+
+  function initReviews() {
+    var grid = document.querySelector('[data-reviews]');
+    if (!grid) return;
+    var loadingEl = document.getElementById('reviewsLoading');
+    var emptyEl = document.getElementById('reviewsEmpty');
+    var errorEl = document.getElementById('reviewsError');
+
+    function showState(el) {
+      [loadingEl, emptyEl, errorEl].forEach(function (node) {
+        if (node) node.hidden = node !== el;
+      });
+    }
+
+    fetch(REVIEWS_API_BASE + '/reviews/public')
+      .then(function (res) {
+        if (!res.ok) throw new Error('Не удалось загрузить отзывы.');
+        return res.json();
+      })
+      .then(function (reviews) {
+        if (!Array.isArray(reviews) || reviews.length === 0) {
+          showState(emptyEl);
+          return;
+        }
+        reviews.forEach(function (review) { grid.appendChild(renderReviewCard(review)); });
+        showState(null);
+      })
+      .catch(function () {
+        showState(errorEl);
+      });
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     initThemeToggle();
     initMobileNav();
@@ -168,5 +245,6 @@
     initReveal();
     initLiveEmbeds();
     initDocsNavSpy();
+    initReviews();
   });
 })();
