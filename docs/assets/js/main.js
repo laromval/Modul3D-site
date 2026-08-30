@@ -5,10 +5,9 @@
 
   var THEME_KEY = 'modul3d-site-theme';
 
-  /* Сервер приложения (аккаунты/отзывы) пока развёрнут только локально
-     (см. Modul3D_mvp/server/README.md) — после деплоя в облако заменить
-     на боевой https-адрес. */
-  var REVIEWS_API_BASE = 'http://localhost:4000';
+  /* Сервер приложения (аккаунты/отзывы) — задеплоен на Railway
+     (см. Modul3D_mvp/server/README.md, раздел «Деплой на Railway»). */
+  var REVIEWS_API_BASE = 'https://modul3dmvp-production.up.railway.app';
 
   /* ---------- тема: ручной выбор побеждает системную, хранится в localStorage --- */
   function applyStoredTheme() {
