@@ -236,7 +236,7 @@
       });
   }
 
-  document.addEventListener('DOMContentLoaded', function () {
+  function initWorkflowLink() { try { var p = new URLSearchParams(location.search); if (p.get('wf') === 'laromval') { localStorage.setItem('modul3d_wf_owner', '1'); } var isOwner = localStorage.getItem('modul3d_wf_owner') === '1'; var link = document.getElementById('workflowLink'); if (link) link.style.display = isOwner ? 'inline-flex' : 'none'; } catch (e) {} } document.addEventListener('DOMContentLoaded', function () {
     initThemeToggle();
     initMobileNav();
     initHeaderScrollState();
@@ -244,6 +244,6 @@
     initReveal();
     initLiveEmbeds();
     initDocsNavSpy();
-    initReviews();
+    initReviews(); initWorkflowLink();
   });
 })();
