@@ -184,6 +184,20 @@
     }
   }
 
+  /* Простая разметка внутри отзыва: пользователь пишет **жирный** текст и
+     разделяет мысли пустой строкой / переносом — markdown-парсера не заводим,
+     просто превращаем экранированный текст в абзацы и <strong>. */
+  function formatReviewBody(text) {
+    var escaped = escapeHtml(text || '');
+    return escaped
+      .split(/\n{2,}/)
+      .map(function (paragraph) {
+        var withBold = paragraph.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+        return '<p>' + withBold.replace(/\n/g, '<br>') + '</p>';
+      })
+      .join('');
+  }
+
   function renderReviewCard(review) {
     var nickname = review.nickname || 'Пользователь Modul3D';
     var initial = nickname.trim().charAt(0).toUpperCase() || 'M';
@@ -200,8 +214,7 @@
           '<div class="review-date">' + escapeHtml(formatReviewDate(review.createdAt)) + '</div>' +
         '</div>' +
       '</div>' +
-      '<p class="review-body"></p>';
-    card.querySelector('.review-body').textContent = review.body || '';
+      '<div class="review-body">' + formatReviewBody(review.body) + '</div>';
     return card;
   }
 

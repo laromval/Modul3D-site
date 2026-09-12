@@ -851,6 +851,9 @@ html.js-reveal .reveal.is-visible { opacity: 1; transform: none; }
 .review-name { font-weight: 600; }
 .review-date { font-family: var(--ff-mono); font-size: .8rem; color: var(--muted); }
 .review-body { color: var(--text-2); font-size: .95rem; line-height: 1.55; }
+.review-body p { margin: 0 0 var(--sp-3); }
+.review-body p:last-child { margin-bottom: 0; }
+.review-body strong { color: var(--text); }
 
 .reviews-state {
   padding: var(--sp-7) var(--sp-5); text-align: center; color: var(--text-2);
