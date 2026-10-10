@@ -102,7 +102,17 @@
     a.download = 'modul3d-notes.txt';
     document.body.appendChild(a); a.click(); a.remove();
   };
-  row.appendChild(dl); result.appendChild(row);
+  var dj = document.createElement('button'); dj.type = 'button'; dj.textContent = 'Скачать для загрузки в Workflow';
+  dj.onclick = function () {
+    var payload = { app: 'modul3d-workflow-notes', notes: items.map(function (n, i) {
+      return { id: 'r' + i, text: n.text, createdAt: n.createdAt || Date.now() };
+    }) };
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' }));
+    a.download = 'modul3d-notes.json';
+    document.body.appendChild(a); a.click(); a.remove();
+  };
+  row.appendChild(dj); row.appendChild(dl); result.appendChild(row);
 
   items.forEach(addCard);
 })();
