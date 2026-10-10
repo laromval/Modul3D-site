@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Modul3D — поиск заметок</title>
+<style>
+  :root { --bg:#f8fafc; --panel:#fff; --text:#0f172a; --muted:#64748b; --border:#e2e8f0; --accent:#0284c7; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#101317; --panel:#171c22; --text:#e6edf3; --muted:#8b98a5; --border:#2a323b; --accent:#00c2ff; }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 24px 16px 64px; }
+  h1 { font-size: 22px; margin: 0 0 6px; }
+  p.lead { color: var(--muted); margin: 0 0 20px; }
+  .card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; margin: 10px 0; }
+  .card pre { white-space: pre-wrap; word-break: break-word; margin: 0 0 10px; font: inherit; }
+  .meta { color: var(--muted); font-size: 13px; margin-bottom: 8px; }
+  button { font: inherit; border: 1px solid var(--accent); background: transparent; color: var(--text); border-radius: 10px; padding: 8px 14px; cursor: pointer; }
+  button:hover { background: var(--accent); color: #fff; }
+  .row { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+  .status { padding: 12px 14px; border-radius: 10px; border: 1px solid var(--border); background: var(--panel); }
+  .warn { color: var(--muted); font-size: 14px; margin-top: 24px; }
+  h2 { font-size: 17px; margin: 24px 0 4px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Поиск сохранённых заметок</h1>
+  <p class="lead">Страница работает только в вашем браузере: она читает его локальную память для адреса <b id="origin"></b> и ничего никуда не отправляет.</p>
+  <div id="status" class="status">Ищу…</div>
+  <div id="result"></div>
+  <p class="warn">Если среди заметок есть пароли — сохраните их в менеджер паролей и удалите из заметок. После копирования закройте эту страницу.</p>
+</main>
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  $('origin').textContent = location.origin;
+
+  var items = [];   // найденные заметки
+  var rawKeys = []; // все ключи, похожие на данные Workflow
+  var storageOk = true;
+  try {
+    for (var i = 0; i < localStorage.length; i++) {
+      var k = localStorage.key(i);
+      if (k && k.toLowerCase().indexOf('modul3d') === 0) {
+        rawKeys.push(k);
+        var v = localStorage.getItem(k);
+        try {
+          var parsed = JSON.parse(v);
+          if (parsed && Array.isArray(parsed.notes)) {
+            parsed.notes.forEach(function (n) {
+              if (n && typeof n.text === 'string') items.push({ key: k, text: n.text, createdAt: n.createdAt });
+            });
+          }
+        } catch (e) {}
+      }
+    }
+  } catch (e) { storageOk = false; }
+
+  var status = $('status'), result = $('result');
+
+  if (!storageOk) {
+    status.textContent = 'Браузер не даёт прочитать локальную память этого адреса.';
+    return;
+  }
+
+  if (!items.length) {
+    status.textContent = rawKeys.length
+      ? 'Данные Workflow под этим адресом найдены (' + rawKeys.join(', ') + '), но заметок в них нет.'
+      : 'Под адресом ' + location.origin + ' данных Workflow нет. Попробуйте открыть эту страницу в том же Chrome под тем же пользователем, а также по адресам, на которых раньше работало приложение.';
+    return;
+  }
+
+  status.textContent = 'Найдено заметок: ' + items.length + '.';
+
+  function addCard(item) {
+    var card = document.createElement('div'); card.className = 'card';
+    var meta = document.createElement('div'); meta.className = 'meta';
+    meta.textContent = item.createdAt ? new Date(item.createdAt).toLocaleString('ru-RU') : 'дата неизвестна';
+    var pre = document.createElement('pre'); pre.textContent = item.text;
+    var btn = document.createElement('button'); btn.type = 'button'; btn.textContent = 'Копировать';
+    btn.onclick = function () {
+      (navigator.clipboard ? navigator.clipboard.writeText(item.text) : Promise.reject()).then(
+        function () { btn.textContent = 'Скопировано'; },
+        function () { var r = document.createRange(); r.selectNodeContents(pre); var s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = 'Выделено — нажмите Ctrl+C'; });
+    };
+    card.appendChild(meta); card.appendChild(pre); card.appendChild(btn);
+    result.appendChild(card);
+  }
+
+  var row = document.createElement('div'); row.className = 'row';
+  var dl = document.createElement('button'); dl.type = 'button'; dl.textContent = 'Скачать все заметки файлом';
+  dl.onclick = function () {
+    var txt = items.map(function (n, i) {
+      return '#' + (i + 1) + (n.createdAt ? ' — ' + new Date(n.createdAt).toLocaleString('ru-RU') : '') + '\n' + n.text;
+    }).join('\n\n----------\n\n');
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([txt], { type: 'text/plain;charset=utf-8' }));
+    a.download = 'modul3d-notes.txt';
+    document.body.appendChild(a); a.click(); a.remove();
+  };
+  row.appendChild(dl); result.appendChild(row);
+
+  items.forEach(addCard);
+})();
+</script>
+</body>
+</html>
